@@ -165,6 +165,9 @@ Handy overview of the most useful ES6 features
 [Don’t Transpile JavaScript for Node.js](http://vancelucas.com/blog/dont-transpile-javascript-for-node-js) - To use (or
 not) transpilers like Babel for node/express apps
 
+[Enabling ES6 Syntax Support in WebStorm](https://medium.com/@brandonaaskov/enabling-es6-syntax-support-in-webstorm-48e22956ecfd#.xkfdhuqil) -
+Good to know if WebStorm is your IDE
+
 [Keeping API Routing Clean Using Express Routers](https://scotch.io/tutorials/keeping-api-routing-clean-using-express-routers) -
 an advanced way to organize your routes, a bit more sophisticated than how I did it in my starter
 
