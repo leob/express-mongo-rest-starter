@@ -1,5 +1,5 @@
 {
-  "name": "express-mongo-crud-rest-example",
+  "name": "express-mongo-rest-starter",
   "version": "0.1.0",
   "description": "CRUD REST API example with node/express and mongodb",
   "engines": {
