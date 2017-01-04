@@ -8,23 +8,23 @@ so this basic "template" should be helpful in many cases.
 
 There are many "starters" available for building Express apps, some big and complicated, others simplistic and "hello
 world" style. This 'starter' tries to find a middle ground - provide some structure and tools, not too much and not too
-little (which is entirely subjective, of course).
+little (which is entirely subjective, of course). Keeping it fairly lightweight and simple.
 
 And (inevitably) it makes a number of choices for you:
 
-* it's based on ES6 (also known as ECMAScript 2015), so using Arrow functions, Promises and so on. This means it will
-work only with newer node.js versions (I'm using and recommending node.js v.6.9), if your node.js does not support this
-then you would need to set up Babel
-* it uses Mongoose as the MongoDB library
+* it's based on ES6 (also known as ECMAScript 2015), so using Arrow functions, Promises and so on (but not ES6 style
+import/export). This means it will work only with newer node.js versions (I'm using and recommending node.js v.6.9)
+* it uses Mongoose as the MongoDB library (I looked at other options but Mongoose is by far the most popular)
 * it uses Morgan and Winston for logging
-* it uses a standard directory structure that seems to be popular in "Express land"
-* finally I have NOT yet chosen a test tool and framework, this will be the hardest part because there are so many ...
+* it uses a standard directory structure, I chose a layout that seems to be popular in "Express land"
+* finally, I have NOT yet chosen a test tool and framework, this will be the hardest part because there are so many ...
 but probably I will end up choosing Mocha and Supertest (because they seem the most popular)
 
 ### Work in progress
 
 This starter/template, and its documentation, is a WORK IN PROGRESS. It's still lacking a few essential things e.g.
-unit/integration testing, authentication, how to do file uploads, and so on.
+unit/integration testing, authentication (I'll probably go for JWT - Javascript Web Tokens), how to do file uploads,
+and so on.
 
 ## Installation and usage
 
@@ -33,6 +33,11 @@ unit/integration testing, authentication, how to do file uploads, and so on.
 Make sure you've got ```node``` installed, preferably a newer version which supports ES6 (ECMAScript 2015). I use and
 recommend ```node``` version ```6.9.x``` which is currently (as of January 2017) the LTS (Long Term Support) version of
 ```node```, hence it's "new" but "stable".
+
+***Note:*** node 6.x provides most of the ES6 features but it does not support ES6 style module import/export, instead
+I'm using CommonJS style "require/module.exports". If you want ES6 import/export then you would need to use Babel,
+however this is not generally recommended, see [this](http://vancelucas.com/blog/dont-transpile-javascript-for-node-js)
+article.
 
 To run the app (while in development, not in production), I recommend ```nodemon``` which will automatically restart
 your app when you change the source. To install it, run (from a terminal):
@@ -153,6 +158,12 @@ to do logging
 [Best practices for Express app structure](https://www.terlici.com/2014/08/25/best-practices-express-structure.html) -
 this one got me thinking on how to structure a (larger) Express app, using subdirectories instead of dumping everything
 into one large JS file
+
+[A Quick Tour Of ES6 (Or, The Bits You’ll Actually Use)](http://jamesknelson.com/es6-the-bits-youll-actually-use/) -
+Handy overview of the most useful ES6 features
+
+[Don’t Transpile JavaScript for Node.js](http://vancelucas.com/blog/dont-transpile-javascript-for-node-js) - To use (or
+not) transpilers like Babel for node/express apps
 
 [Keeping API Routing Clean Using Express Routers](https://scotch.io/tutorials/keeping-api-routing-clean-using-express-routers) -
 an advanced way to organize your routes, a bit more sophisticated than how I did it in my starter
