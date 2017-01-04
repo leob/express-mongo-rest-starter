@@ -1,0 +1,27 @@
+{
+  "name": "express-mongo-crud-rest-example",
+  "version": "0.1.0",
+  "description": "CRUD REST API example with node/express and mongodb",
+  "engines": {
+    "node": "6.9.1"
+  },
+  "main": "bin/www.js",
+  "scripts": {
+    "start": "cross-env DEBUG=mira-analytics LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config bin/www.js",
+    "debug": "cross-env DEBUG=mira-analytics LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon --debug-brk --inspect -r dotenv/config bin/www.js",
+    "test": "cross-env DEBUG=mira-analytics LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config test/index.js"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cross-env": "^3.1.4",
+    "debug": "~2.2.0",
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.6.2",
+    "morgan": "^1.7.0",
+    "winston": "^2.3.0"
+  }
+}
