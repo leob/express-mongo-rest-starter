@@ -1,3 +1,7 @@
+//
+// Projects controller
+//
+
 const express = require('express')
   , router = express.Router()
   , {reject, handleErr} = require('util/errors')

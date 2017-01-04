@@ -1,3 +1,7 @@
+//
+// Main app module
+//
+
 const express = require('express');
 const bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 const methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
@@ -38,6 +42,7 @@ app.use(methodOverride());
 
 // Routes/controllers
 app.use('/api', require('controllers/projects'));
+// more routes/controllers here ...
 
 /**
  * Error handling middleware, see:

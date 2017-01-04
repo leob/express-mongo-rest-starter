@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+//
+// Bootstrap the server/app
+//
+
 const app = require('app');
 const debug = require('debug')('mira-analytics');
 const http = require('http');
