@@ -203,6 +203,12 @@ clearly quite inefficient (two client-server roundtrips)
 * perform two MongoDB/Mongoose queries but perform them 'server side' and also do the join 'server side'. This would
 mean adding more code/logic to the Controllers, or adding another object/abstraction layer for instance 'repositories'
 or 'services' (see for instance [this](http://adrian-philipp.com/post/function-factory-getters-hot-reloading) article)
+* a very advanced and cutting-edge approach is to use GraphQL, which allows you to compose queries/requests flexibly at
+the client side. This is very interesting and currently "hot" technology, however it means a complete departure from
+the REST model (you can see it as a REST competitor), so I did not consider it for this project/starter since the scope
+of this starter is "REST API". This would for sure be interesting for another project. There is even a project called
+[Graffiti](https://github.com/risingstack/graffiti) which aims to "automagically" do the interfacing between Mongoose
+and GraphQL.
 * the final solution and the one I prefer is to shift this problem to Mongoose - since Mongoose is an "ORM" it already
 has facilities to model relationships and make MongoDB behave a bit more like a "relational database".
 
