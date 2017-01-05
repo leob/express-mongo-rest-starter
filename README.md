@@ -24,8 +24,13 @@ And (inevitably) it makes a number of choices for you:
 * it's based on ES6 (also known as ECMAScript 2015), so using Arrow functions, Promises and so on (but not ES6 style
 import/export). This means it will work only with newer node.js versions (I'm using and recommending node.js v.6.9)
 * it uses Mongoose as the MongoDB library. This is the most popular Javascript library for MongoDB with an extensive
-community and ecosystem around it, and with substantial advantages for more complex apps
-* it uses Morgan and Winston for logging
+community and ecosystem around it, and with substantial advantages for more complex apps (e.g. model validation and
+client-side joins)
+* it uses ABSOLUTE paths for importing modules, so instead of ```Project = require('../models/project')``` we simply
+use Project = require('models/project') - simpler and less error-prone (and it allows you to more easily move modules to
+a different directory as part of a refactoring); the absolute paths are made possible by setting the NODE_PATH variable
+in the startup scripts
+* it uses Morgan and Winston for logging, and has error-handling middleware
 * it uses a standard directory structure, I chose a layout that seems to be popular in "Express land"
 * finally, I have NOT yet chosen a test tool and framework, this will be the hardest part because there are so many ...
 but probably I will end up choosing Mocha, Chai and Supertest (because they seem the most popular)
@@ -152,11 +157,12 @@ curl --request DELETE http://localhost:3000/api/projects/585005468907560e9d4d377
 
 ## Roadmap
 
-The following improvements are planned for the starter:
+The following improvements are planned for the 'starter':
 
 * unit/integration testing (probably with Mocha, Chai and Supertest)
 * authentication (using Passport or JWT - Javascript Web Tokens)
-* file uploads
+* file uploads (via JSON or via multipart/form-data?)
+* tooling: add ESLint (with eslint-config-airbnb)
 * the controllers have quite a lot of 'boilerplate' and code repitition - how can we avoid copy and past and make the
 controllers more 'DRY' ?
 * extending the Mongoose model examples, especially with more complex Mongodb models/relations (instead of the current
@@ -175,7 +181,7 @@ For instance, if a Task belongs to one User (person), or conversely a User can h
 that?
 
 * Do you store a list of ObjectIDs of the Tasks in the User document?
-* Or do you 'denormalize' the data and store not only the Tasks' IDs but also the tasks' Descriptions in the User
+* Or do you 'de-normalize' the data and store not only the Tasks' IDs but also the tasks' Descriptions in the User
 document?
 
 Both approaches have their pros and cons. The tradeoffs are:
@@ -183,7 +189,7 @@ Both approaches have their pros and cons. The tradeoffs are:
 * With the first solution (storing only the ObjectIDs), after fetching a User, you would need to do another client-side
 query to fetch the Tasks for that user (so that you can show the task descriptions).
 
-* With the second solution (denormalized storage), you store the Task description redundantly in the User document, so
+* With the second solution (de-normalized storage), you store the Task description redundantly in the User document, so
 you don't need to perform an extra client-side query to fetch the Tasks. However if you update the description of a Task
 you will need to update it in the User also.
 
@@ -206,15 +212,15 @@ or 'services' (see for instance [this](http://adrian-philipp.com/post/function-f
 * a very advanced and cutting-edge approach is to use GraphQL, which allows you to compose queries/requests flexibly at
 the client side. This is very interesting and currently "hot" technology, however it means a complete departure from
 the REST model (you can see it as a REST competitor), so I did not consider it for this project/starter since the scope
-of this starter is "REST API". This would for sure be interesting for another project. There is even a project called
-[Graffiti](https://github.com/risingstack/graffiti) which aims to "automagically" do the interfacing between Mongoose
-and GraphQL.
-* the final solution and the one I prefer is to shift this problem to Mongoose - since Mongoose is an "ORM" it already
-has facilities to model relationships and make MongoDB behave a bit more like a "relational database".
+of this starter is "REST API", however I'm considering this for another 'starter' project. There is even a tool/library
+called [Graffiti](https://github.com/risingstack/graffiti) which aims to "automagically" do the interfacing between
+Mongoose and GraphQL.
+* the final solution, and the one I prefer, is to shift this problem to Mongoose - since Mongoose is an "ORM" it
+already has facilities to model relationships and make MongoDB behave a bit more like a "relational database".
 
-So, to summarize all of this: I am planning to add more 'realistic' Mongoose models, with relationships between them,
-to the starter, and to show how to use Mongoose facilities to manage the relationships. The Mongoose features which
-make this possible are the following:
+So, to summarize all of this: I'm planning to add more 'realistic' Mongoose models (with relationships between them) to
+the starter, and to show how to use Mongoose facilities to manage the relationships. The Mongoose features which make
+this possible are the following:
 
 * [Query Population](http://mongoosejs.com/docs/populate.html) - this facility lets Mongoose do the "client side joins"
 for you
