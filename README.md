@@ -7,8 +7,10 @@ so this basic "template" should be helpful in many cases.
 ## Table of contents
 
 [Intro and overview](#intro-and-overview)<br>
+[Work in progress](#work-in-progress)<br>
 [Installation and usage](#installation-and-usage)<br>
-[Roadmap](#roadmap)
+[Roadmap](#roadmap)<br>
+[Mongoose models and relationships]('#mongoose-models-and-relationships')<br>
 [References](#references)
 
 ## Intro and overview
@@ -31,8 +33,10 @@ but probably I will end up choosing Mocha, Chai and Supertest (because they seem
 ### Work in progress
 
 This starter/template, and its documentation, is a WORK IN PROGRESS. It's still lacking a few essential things e.g.
-unit/integration testing, authentication (I'll probably go for JWT - Javascript Web Tokens), how to do file uploads,
-and so on. Controller/model examples are also rudimentary. See [below](#roadmap) for some ideas for improvements.
+unit/integration testing, authentication (probably with JWT - Javascript Web Tokens), how to do file uploads,
+etc.
+
+Controller/model examples are also rudimentary. See [below](#roadmap) for some ideas for improvements.
 
 ## Installation and usage
 
@@ -158,8 +162,8 @@ controllers more 'DRY' ?
 * extending the Mongoose model examples, especially with more complex Mongodb models/relations (instead of the current
 'Project' example I will probably switch to another example/use case, for instance a "To do" app with Tasks and Users)
 
-The last point (modeling of MongoDB relations) is central to application architecture with MongoDB so I discuss it
-further in the next section.
+The last point (modeling of MongoDB relations) is central to application architecture with MongoDB, so I will discuss
+it separately in the [next]('#mongoose-models-and-relationships') section.
 
 ### Mongoose models and relationships
 
