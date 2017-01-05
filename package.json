@@ -7,9 +7,9 @@
   },
   "main": "bin/www.js",
   "scripts": {
-    "start": "cross-env DEBUG=mira-analytics LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config bin/www.js",
-    "debug": "cross-env DEBUG=mira-analytics LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon --debug-brk --inspect -r dotenv/config bin/www.js",
-    "test": "cross-env DEBUG=mira-analytics LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config test/index.js"
+    "start": "cross-env DEBUG=express-mongo-rest-starter LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config bin/www.js",
+    "debug": "cross-env DEBUG=express-mongo-rest-starter LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon --debug-brk --inspect -r dotenv/config bin/www.js",
+    "test": "cross-env DEBUG=express-mongo-rest-starter LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config test/index.js"
   },
   "devDependencies": {},
   "dependencies": {
