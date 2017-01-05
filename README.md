@@ -4,6 +4,13 @@ This project provides a "template"/boilerplate to help you started set up a CRUD
 MongoDB. This combination of requirements (node.js/express.js, CRUD functionality, MongoDB, REST API) is fairly common,
 so this basic "template" should be helpful in many cases.
 
+## Table of contents
+
+[Intro and overview](#intro-and-overview)<br>
+[Installation and usage](#installation-and-usage)<br>
+[Roadmap](#roadmap)
+[References](#references)
+
 ## Intro and overview
 
 There are many "starters" available for building Express apps, some big and complicated, others simplistic and "hello
@@ -14,17 +21,18 @@ And (inevitably) it makes a number of choices for you:
 
 * it's based on ES6 (also known as ECMAScript 2015), so using Arrow functions, Promises and so on (but not ES6 style
 import/export). This means it will work only with newer node.js versions (I'm using and recommending node.js v.6.9)
-* it uses Mongoose as the MongoDB library (I looked at other options but Mongoose is by far the most popular)
+* it uses Mongoose as the MongoDB library. This is the most popular Javascript library for MongoDB with an extensive
+community and ecosystem around it, and with substantial advantages for more complex apps
 * it uses Morgan and Winston for logging
 * it uses a standard directory structure, I chose a layout that seems to be popular in "Express land"
 * finally, I have NOT yet chosen a test tool and framework, this will be the hardest part because there are so many ...
-but probably I will end up choosing Mocha and Supertest (because they seem the most popular)
+but probably I will end up choosing Mocha, Chai and Supertest (because they seem the most popular)
 
 ### Work in progress
 
 This starter/template, and its documentation, is a WORK IN PROGRESS. It's still lacking a few essential things e.g.
 unit/integration testing, authentication (I'll probably go for JWT - Javascript Web Tokens), how to do file uploads,
-and so on.
+and so on. Controller/model examples are also rudimentary. See [below](#roadmap) for some ideas for improvements.
 
 ## Installation and usage
 
@@ -138,6 +146,80 @@ $ delete project
 curl --request DELETE http://localhost:3000/api/projects/585005468907560e9d4d377f
 </pre>
 
+## Roadmap
+
+The following improvements are planned for the starter:
+
+* unit/integration testing (probably with Mocha, Chai and Supertest)
+* authentication (using Passport or JWT - Javascript Web Tokens)
+* file uploads
+* the controllers have quite a lot of 'boilerplate' and code repitition - how can we avoid copy and past and make the
+controllers more 'DRY' ?
+* extending the Mongoose model examples, especially with more complex Mongodb models/relations (instead of the current
+'Project' example I will probably switch to another example/use case, for instance a "To do" app with Tasks and Users)
+
+The last point (modeling of MongoDB relations) is central to application architecture with MongoDB so I discuss it
+further in the next section.
+
+### Mongoose models and relationships
+
+The API/controller and Mongoose model examples are VERY rudimentary. There is only one Mongoose model (Project) with
+one field ('title'). I would like to add more models, and then show how you can handle relationships between the models
+in an non-relational database like MongoDB.
+
+For instance, if a Task belongs to one User (person), or conversely a User can have multiple Tasks, how do you model
+that?
+
+* Do you store a list of ObjectIDs of the Tasks in the User document?
+* Or do you 'denormalize' the data and store not only the Tasks' IDs but also the tasks' Descriptions in the User
+document?
+
+Both approaches have their pros and cons. The tradeoffs are:
+
+* With the first solution (storing only the ObjectIDs), after fetching a User, you would need to do another client-side
+query to fetch the Tasks for that user (so that you can show the task descriptions).
+
+* With the second solution (denormalized storage), you store the Task description redundantly in the User document, so
+you don't need to perform an extra client-side query to fetch the Tasks. However if you update the description of a Task
+you will need to update it in the User also.
+
+Issues like these are well known and stem from the fact that MongoDB is a no-SQL database and therefore not relational.
+Read this article for a good explanation of the various ways (and their tradeoffs) to model relationships in MongoDB:
+
+[6 Rules of Thumb for MongoDB Schema Design](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1?_ga=1.160035453.1913396526.1478489894)
+
+Another example of "relational" issues is referential integrity - how do you prevent deleting a User who still has
+Tasks? If the User is deleted and the user's Tasks are not then the result will be that the tasks are "orphaned".
+
+Now there are several ways to deal with these issues:
+
+* handle it completely client-side: this means that the client of the REST API (for instance an Angular or React web
+app) needs to do 2 API calls, first to retrieve the User(s) and then to retrieve the Task(s) of the User(s); this is
+clearly quite inefficient (two client-server roundtrips)
+* perform two MongoDB/Mongoose queries but perform them 'server side' and also do the join 'server side'. This would
+mean adding more code/logic to the Controllers, or adding another object/abstraction layer for instance 'repositories'
+or 'services' (see for instance [this](http://adrian-philipp.com/post/function-factory-getters-hot-reloading) article)
+* the final solution and the one I prefer is to shift this problem to Mongoose - since Mongoose is an "ORM" it already
+has facilities to model relationships and make MongoDB behave a bit more like a "relational database".
+
+So, to summarize all of this: I am planning to add more 'realistic' Mongoose models, with relationships between them,
+to the starter, and to show how to use Mongoose facilities to manage the relationships. The Mongoose features which
+make this possible are the following:
+
+* [Query Population](http://mongoosejs.com/docs/populate.html) - this facility lets Mongoose do the "client side joins"
+for you
+* [Mongoose Middleware](http://mongoosejs.com/docs/middleware.html) - this is a way to centralize application logic
+(for instance, checking for duplicate keys, and other error handling) so that we can keep the Controllers simple;
+see the section 'Error Handling Middleware' on that page
+* [Mongoose Plugins](http://mongoosejs.com/docs/plugins.html) - another way to centralize application logic and keep
+your controllers etcetera simple. We could use [this](https://github.com/getlackey/mongoose-ref-validator) Mongoose
+plugin to enforce 'referential integrity' (prevent deleting a document which still refers to other documents)
+
+Even when using these Mongoose facilities it might be a good idea to introduce a Services layer next to the Controllers
+layer (I've already created a 'services' directory but it is currently empty). This way we can keep the controllers
+simple, maybe it turns out that the 'controllers' are not needed anymore (it might be that we end up with only routing
+boilerplate) and we can get rid of them (replace them with a generic module).
+
 ## References
 
 This starter/template was developed "standing on the shoulders of giants". Here is a selection of the most valuable
@@ -151,6 +233,12 @@ Prefect intro tutorial to Mongoose
 
 [Switching out callbacks with promises in Mongoose](http://eddywashere.com/blog/switching-out-callbacks-with-promises-in-mongoose/) -
 How to use Mongoose with Promises
+
+[6 Rules of Thumb for MongoDB Schema Design](https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1?_ga=1.160035453.1913396526.1478489894) -
+MongoDB database modeling guidelines
+
+[Mongoose plugins](https://www.npmjs.com/search?q=mongoose+plugin) - an NPM query which shows the Mongoose plugins
+available via NPM
 
 [How to Get Node.js Logging Right](https://blog.risingstack.com/node-js-logging-tutorial/) - Showed me the "right" way
 to do logging

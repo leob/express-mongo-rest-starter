@@ -41,7 +41,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 app.use(methodOverride());
 
 // Routes/controllers
-app.use('/api', require('controllers/projects'));
+app.use('/api/projects', require('controllers/projects'));
 // more routes/controllers here ...
 
 /**

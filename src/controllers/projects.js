@@ -5,13 +5,13 @@
 const express = require('express')
   , router = express.Router()
   , {reject, handleErr} = require('util/errors')
-  , Project = require('models/project')
+  , Project = require('models/project');
 
 function handle(next, err, operation) {
   handleErr(next, err, 'projects:' + operation);
 }
 
-router.route('/projects').get( (req, res, next) => {
+router.route('/').get( (req, res, next) => {
 
   Project.find().exec().then( (projects) => {
     res.json(projects);
@@ -21,7 +21,7 @@ router.route('/projects').get( (req, res, next) => {
   });
 });
 
-router.route('/projects/:id').get( (req, res, next) => {
+router.route('/:id').get( (req, res, next) => {
 
   Project.findById(req.params.id).exec().then( (project) => {
     if (!project) {
@@ -35,7 +35,7 @@ router.route('/projects/:id').get( (req, res, next) => {
   });
 });
 
-router.route('/projects').post( (req, res, next) => {
+router.route('/').post( (req, res, next) => {
   const project = new Project(req.body);
 
   project.save().then( (project) => {
