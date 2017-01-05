@@ -7,10 +7,9 @@ so this basic "template" should be helpful in many cases.
 ## Table of contents
 
 [Intro and overview](#intro-and-overview)<br>
-[Work in progress](#work-in-progress)<br>
 [Installation and usage](#installation-and-usage)<br>
 [Roadmap](#roadmap)<br>
-[Mongoose models and relationships]('#mongoose-models-and-relationships')<br>
+- [Mongoose models and relationships](#mongoose-models-and-relationships)<br>
 [References](#references)
 
 ## Intro and overview
@@ -163,7 +162,7 @@ controllers more 'DRY' ?
 'Project' example I will probably switch to another example/use case, for instance a "To do" app with Tasks and Users)
 
 The last point (modeling of MongoDB relations) is central to application architecture with MongoDB, so I will discuss
-it separately in the [next]('#mongoose-models-and-relationships') section.
+it separately in the [next](#mongoose-models-and-relationships) section.
 
 ### Mongoose models and relationships
 
