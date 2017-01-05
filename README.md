@@ -7,9 +7,10 @@ so this basic "template" should be helpful in many cases.
 ## Table of contents
 
 [Intro and overview](#intro-and-overview)<br>
+[Work in progress](#work-in-progress)<br>
 [Installation and usage](#installation-and-usage)<br>
 [Roadmap](#roadmap)<br>
-- [Mongoose models and relationships](#mongoose-models-and-relationships)<br>
+[Mongoose models and relationships](#mongoose-models-and-relationships)<br>
 [References](#references)
 
 ## Intro and overview
@@ -29,7 +30,7 @@ community and ecosystem around it, and with substantial advantages for more comp
 * finally, I have NOT yet chosen a test tool and framework, this will be the hardest part because there are so many ...
 but probably I will end up choosing Mocha, Chai and Supertest (because they seem the most popular)
 
-### Work in progress
+## Work in progress
 
 This starter/template, and its documentation, is a WORK IN PROGRESS. It's still lacking a few essential things e.g.
 unit/integration testing, authentication (probably with JWT - Javascript Web Tokens), how to do file uploads,
@@ -164,7 +165,7 @@ controllers more 'DRY' ?
 The last point (modeling of MongoDB relations) is central to application architecture with MongoDB, so I will discuss
 it separately in the [next](#mongoose-models-and-relationships) section.
 
-### Mongoose models and relationships
+## Mongoose models and relationships
 
 The API/controller and Mongoose model examples are VERY rudimentary. There is only one Mongoose model (Project) with
 one field ('title'). I would like to add more models, and then show how you can handle relationships between the models
