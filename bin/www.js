@@ -5,7 +5,7 @@
 //
 
 const app = require('app');
-const debug = require('debug')('mira-analytics');
+const debug = require('debug')('express-mongo-rest-starter');
 const http = require('http');
 
 const port = normalizePort(process.env.PORT || 3000);
