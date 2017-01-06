@@ -43,6 +43,17 @@ etc.
 
 Controller/model examples are also rudimentary. See [below](#roadmap) for some ideas for improvements.
 
+### Credits
+
+My starter is, to a large extent, a mix (with tweaks and additions to satisfy my personal tastes and needs) of the
+following great projects:
+
+[Express Generator](https://github.com/expressjs/generator) - the official Expressjs application generator
+
+[Hackathon Starter](https://github.com/sahat/hackathon-starter) - A great Node/Express starter
+
+[express-mongoose-es6-rest-api](https://github.com/KunalKapadia/express-mongoose-es6-rest-api) - Another great starter
+
 ## Installation and usage
 
 ### Prerequisites
@@ -283,6 +294,9 @@ looks suitable for big apps
 sources of inspiration for my starter (to a large extent my starter is a greatly stripped down version of the Hackaton
 Starter with numerous little tweaks to make it meet my tastes and requirements); maybe the greatest thing about the
 Hackaton Starter is the README which is on genius level and an absolute goldmine of information
+
+[express-mongoose-es6-rest-api](https://github.com/KunalKapadia/express-mongoose-es6-rest-api) - Another great starter,
+I "borrowed" (among other things) the directory/file naming conventions from this starter
 
 [How To Start Unit Testing Your Express Apps](http://alexanderpaterson.com/posts/how-to-start-unit-testing-your-express-apps) -
 Testing with Mocha and Chai
