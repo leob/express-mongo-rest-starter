@@ -45,7 +45,7 @@ Controller/model examples are also rudimentary. See [below](#roadmap) for some i
 
 ### Credits
 
-My starter is, to a large extent, a mix (with tweaks and additions to satisfy my personal tastes and needs) of the
+This starter is, to a large extent, a mix (with tweaks and additions to satisfy my personal tastes and needs) of the
 following great projects:
 
 [express-mongoose-es6-rest-api](https://github.com/KunalKapadia/express-mongoose-es6-rest-api) - A great Node/Express
