@@ -3,7 +3,8 @@
 node_modules/
 build/
 npm-debug.log
-.env
+.env.*
+!.env.example
 _*
 .DS_STORE
 .idea

@@ -1,16 +1,26 @@
 #!/usr/bin/env node
 
-//
-// Bootstrap the server/app
-//
+/**
+/* Bootstrap the server/app
+*/
 
 const app = require('app');
-const debug = require('debug')('express-mongo-rest-starter');
-const http = require('http');
+
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+
+logDebug('mongo: ' + process.env.MONGODB_URI + ' autoIndex: ' + (process.env.MONGODB_AUTOINDEX === 'true'));
+mongoose.connect(process.env.MONGODB_URI, {config: {autoIndex: process.env.MONGODB_AUTOINDEX === 'true'}});
+
+mongoose.connection.on('error', () => {
+  console.error('MongoDB connection error. Please make sure MongoDB is running.');
+  process.exit();
+});
 
 const port = normalizePort(process.env.PORT || 3000);
 app.set('port', port);
 
+const http = require('http');
 const server = http.createServer(app);
 
 // Listen on provided port, on all network interfaces
@@ -73,5 +83,11 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  logDebug('Listening on ' + bind);
+}
+
+function logDebug(message) {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(message);
+  }
 }

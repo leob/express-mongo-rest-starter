@@ -1,21 +1,38 @@
 {
   "name": "express-mongo-rest-starter",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "CRUD REST API example with node/express and mongodb",
+  "author": "leob <leobdev@gmail.com>",
   "engines": {
     "node": "6.9.1"
   },
   "main": "bin/www.js",
   "scripts": {
-    "start": "cross-env DEBUG=express-mongo-rest-starter LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config bin/www.js",
-    "debug": "cross-env DEBUG=express-mongo-rest-starter LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon --debug-brk --inspect -r dotenv/config bin/www.js",
-    "test": "cross-env DEBUG=express-mongo-rest-starter LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config test/index.js"
+    "start": "cross-env LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config bin/www.js dotenv_config_path=.env.development",
+    "debug": "cross-env LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon --debug-brk --inspect -r dotenv/config bin/www.js dotenv_config_path=.env.development",
+    "test": "cross-env LOG_LEVEL=debug NODE_ENV=development NODE_PATH=src/ nodemon -r dotenv/config test/index.js dotenv_config_path=.env.development"
   },
-  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:leob/express-mongo-rest-starter.git"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "node.js",
+    "mongodb",
+    "mongoose",
+    "es6",
+    "mocha",
+    "CRUD",
+    "REST",
+    "API",
+    "starter",
+    "boilerplate"
+  ],
   "dependencies": {
     "body-parser": "^1.15.2",
     "cross-env": "^3.1.4",
-    "debug": "~2.2.0",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "http": "0.0.0",
@@ -23,5 +40,12 @@
     "mongoose": "^4.6.2",
     "morgan": "^1.7.0",
     "winston": "^2.3.0"
-  }
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "cross-env": "3.1.3",
+    "mocha": "3.2.0",
+    "supertest": "2.0.1"
+  },
+  "license": "MIT"
 }
