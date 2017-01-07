@@ -48,11 +48,18 @@ Controller/model examples are also rudimentary. See [below](#roadmap) for some i
 My starter is, to a large extent, a mix (with tweaks and additions to satisfy my personal tastes and needs) of the
 following great projects:
 
-[Express Generator](https://github.com/expressjs/generator) - the official Expressjs application generator
+[express-mongoose-es6-rest-api](https://github.com/KunalKapadia/express-mongoose-es6-rest-api) - A great Node/Express
+starter which I discovered after I made the first version of my starter. It turned out that it met already 80% of my
+needs, however my starter has a few simplifications (it does not use Babel, hence it can't use ES6 'import', instead
+I'm using 'require'; also I'm not using Bluebird for promises but plain ES6 promises; and there's some other stuff
+which I've omitted). However I've copied/pasted the excellent router/controller/model structure (including the naming
+convention) almost literally, because the structure looked more or less perfect to me.
 
-[Hackathon Starter](https://github.com/sahat/hackathon-starter) - A great Node/Express starter
+[Express Generator](https://github.com/expressjs/generator) - the official Expressjs application generator, this gave
+me the idea to use the 'bin/www.js' startup script which does the connection/networking stuff, isolated frm 'app.js'
+which is the application proper an can be unit-tested isolated from the networking
 
-[express-mongoose-es6-rest-api](https://github.com/KunalKapadia/express-mongoose-es6-rest-api) - Another great starter
+[Hackathon Starter](https://github.com/sahat/hackathon-starter) - Another great starter
 
 ## Installation and usage
 
@@ -112,21 +119,15 @@ npm install
 First check and edit the configuration variables for the application. To do this copy the ".env.example" file:
 
 <pre>
-cp .env.example .env
-# Look at the environment variables:
-cat .env
+cp .env.example .env.development
+# Look at the environment variables and modify them where necessaary:
+cat .env.development
 </pre>
 
 The variables should work "out of the box" with their default values but if you want you can edit the .env file and
 make some changes, for instance you can change the MONGODB_URI to point to a different Mongo database.
 
 Now you can run the app (in "development" mode) by executing this command:
-
-<pre>
-npm run start
-</pre>
-
-or simply (equivalent):
 
 <pre>
 npm start
