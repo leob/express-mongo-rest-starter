@@ -50,10 +50,13 @@ following great projects:
 
 [express-mongoose-es6-rest-api](https://github.com/KunalKapadia/express-mongoose-es6-rest-api) - A great Node/Express
 starter which I discovered after I made the first version of my starter. It turned out that it met already 80% of my
-needs, however my starter has a few simplifications (it does not use Babel, hence it can't use ES6 'import', instead
-I'm using 'require'; also I'm not using Bluebird for promises but plain ES6 promises; and there's some other stuff
-which I've omitted). However I've copied/pasted the excellent router/controller/model structure (including the naming
-convention) almost literally, because the structure looked more or less perfect to me.
+needs, however my starter has a few simplifications:
+
+It does not use Babel, hence it can't use ES6 'import', instead I'm using "require"; also I'm not using "Bluebird" for
+promises but plain ES6 promises; and there's some other stuff which I've omitted.
+
+However I've copied/pasted the excellent router/controller/model structure (including the naming convention) almost
+literally, because the structure looked more or less perfect to me.
 
 [Express Generator](https://github.com/expressjs/generator) - the official Expressjs application generator, this gave
 me the idea to use the 'bin/www.js' startup script which does the connection/networking stuff, isolated frm 'app.js'
@@ -124,8 +127,18 @@ cp .env.example .env.development
 cat .env.development
 </pre>
 
-The variables should work "out of the box" with their default values but if you want you can edit the .env file and
-make some changes, for instance you can change the MONGODB_URI to point to a different Mongo database.
+The variables should work "out of the box" with their default values but if you want you can edit the .env.development
+file and make some changes, for instance you can change the MONGODB_URI to point to a different Mongo database.
+
+'''Notes:''':
+
+* For security reasons the .env.development file is NOT committed to source control. For the same reason you would not
+commit an ".env.test" or ".env.production" file to source control (this is enforced automatically by the
+```.gitignore``` file).
+
+* Instead of (or in addition to) putting environment variables in .env files, you can set these variables directly on
+the command line (see the ```scripts``` section in ```package.json```), this is also how the ```NODE_PATH``` and
+```NODE_ENV``` variables get set.
 
 Now you can run the app (in "development" mode) by executing this command:
 
