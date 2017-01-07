@@ -35,8 +35,15 @@ function handleError(next, err, context) {
     next(err);
 }
 
+function handlers(entity, context) {
+    return {
+        handle: (req, res, user) => handleResult(req, res, user, entity),
+        handleErr: (next, err, operation) => handleError(next, err, context + ':' + operation)
+    };
+}
+
 function id(req) {
     return req.params.id;
 }
 
-module.exports = {reject, err, handleResult, handleError, id};
+module.exports = {reject, err, handleResult, handleError, handlers, id};

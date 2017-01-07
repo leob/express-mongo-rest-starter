@@ -11,4 +11,7 @@ router.route('/:id')
   .put(userCtrl.update)
   .delete(userCtrl.remove);
 
+router.route('/:id/tasks')
+  .get(userCtrl.getUserTasks);
+
 module.exports = router;

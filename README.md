@@ -26,8 +26,8 @@ import/export). This means it will work only with newer node.js versions (I'm us
 * it uses Mongoose as the MongoDB library. This is the most popular Javascript library for MongoDB with an extensive
 community and ecosystem around it, and with substantial advantages for more complex apps (e.g. model validation and
 client-side joins)
-* it uses ABSOLUTE paths for importing modules, so instead of ```Project = require('../models/project')``` we simply
-use Project = require('models/project') - simpler and less error-prone (and it allows you to more easily move modules to
+* it uses ABSOLUTE paths for importing modules, so instead of ```User = require('../models/user')``` we simply
+use User = require('models/user') - simpler and less error-prone (and it allows you to more easily move modules to
 a different directory as part of a refactoring); the absolute paths are made possible by setting the NODE_PATH variable
 in the startup scripts
 * it uses Morgan and Winston for logging, and has error-handling middleware
@@ -55,8 +55,7 @@ needs, however my starter has a few simplifications:
 It does not use Babel, hence it can't use ES6 'import', instead I'm using "require"; also I'm not using "Bluebird" for
 promises but plain ES6 promises; and there's some other stuff which I've omitted.
 
-However I've copied/pasted the excellent router/controller/model structure (including the naming convention) almost
-literally, because the structure looked more or less perfect to me.
+However I've adopted the router/controller/model structure (including the naming convention) for the largest part.
 
 [Express Generator](https://github.com/expressjs/generator) - the official Expressjs application generator, this gave
 me the idea to use the 'bin/www.js' startup script which does the connection/networking stuff, isolated frm 'app.js'
@@ -150,10 +149,10 @@ Watch the logs in the terminal to see if the app starts up successfully.
 
 To test the app, you can either open it in a browser or you can use the ```curl``` program from the command line.
 
-Browser: open the following URL in a web browser: ```http://localhost:3000/api/projects```
+Browser: open the following URL in a web browser: ```http://localhost:3000/api/users```
 
 You should see just this ```[]``` which means an empty collection was returned (because the MongoDB database is still
-empty, no projects).
+empty, no users).
 
 ### Testing with ```curl```
 
@@ -162,22 +161,43 @@ It's more efficient to test with a command line tool like ```curl``` which allow
 Here are examples of ```curl``` commands you can use:
 
 <pre>
-# Get all projects:
-curl -X GET http://localhost:3000/api/projects
+# get all users
+curl -X GET http://localhost:3000/api/users
 
-# Get a project by ID (the ID is made up, replace this with an existing ID)
-curl -X GET http://localhost:3000/api/projects/585111468222960eee4d3fff
+# get user by ID (ID is made up, replace with a real one)
+curl -X GET http://localhost:3000/api/users/5870f21044867d1421c24074
 
-# create project
-curl -H "Content-Type: application/json" -X POST -d '{"title":"bla"}' http://localhost:3000/api/projects
-#curl --data "title=bla" http://localhost:3000/api/projects
+# create user
+curl -H "Content-Type: application/json" -X POST -d '{"username":"Stan Laurel", "email":"stan@laurel.com"}' \
+        http://localhost:3000/api/users
 
-# update project
-curl -v -H "Content-Type: application/json" -X PUT -d '{"title":"bla upd"}' \
-    http://localhost:3000/api/projects/586b3edbd9a8640c606da451
+# update user (ID is made up)
+curl -v -H "Content-Type: application/json" -X PUT -d '{"email":"oliver@hardy.com"}' \
+    http://localhost:3000/api/users/5870f21044867d1421c24074
 
-$ delete project
-curl --request DELETE http://localhost:3000/api/projects/585005468907560e9d4d377f
+# delete user (ID is made up)
+curl --request DELETE http://localhost:3000/api/users/585005468907560e9d4d377f
+
+# get the oldest 3 tasks ("skip" and "limit" parameters for paging)
+curl -X GET http://localhost:3000/api/tasks?skip=0\&limit=3
+
+# get task by ID (with the name of the assigned user)
+curl -X GET http://localhost:3000/api/tasks/586b3edbd9a8640c606da451
+
+# create task
+curl -H "Content-Type: application/json" -X POST -d \
+    '{"description":"new task 1", "assignee":"5870f21044867d1421c24074", "dueDate":"2016-12-30T08:30:30+0000"}' \
+        http://localhost:3000/api/tasks
+
+# update task
+curl -v -H "Content-Type: application/json" -X PUT -d '{"dueDate":"2017-01-01T08:30:30+0000"}' \
+    http://localhost:3000/api/tasks/5870f3bcfa11bc145f630ead
+
+# delete task
+curl --request DELETE http://localhost:3000/api/tasks/585005468907560e9d4d377f
+
+# get a user's tasks
+curl -X GET http://localhost:3000/api/users/5870f21044867d1421c24074/tasks
 </pre>
 
 ## Roadmap
@@ -190,24 +210,30 @@ The following improvements are planned for the 'starter':
 * tooling: add ESLint (with eslint-config-airbnb)
 * the controllers have quite a lot of 'boilerplate' and code repitition - how can we avoid copy and past and make the
 controllers more 'DRY' ?
-* extending the Mongoose model examples, especially with more complex Mongodb models/relations (instead of the current
-'Project' example I will probably switch to another example/use case, for instance a "To do" app with Tasks and Users)
+* extending the Mongoose model examples, especially with more complex Mongodb models/relations
+* improve error handling and reporting: currently the app has validations in the Mongoose models (for instance if the
+email address for a user is a valid email address) but these are not reported properly (the response is just 'error')
+* add Referential Integrity checks between related documents (for example, a User can have one or more Tasks, but
+currently you can delete a user who has Tasks - the app should check if the user has tasks and then either delete the
+tasks before deleting the user, or prohibit deleting the user; in the same way, before adding a Task, the app should
+check if the User referenced by that Task exists)
 
 The last point (modeling of MongoDB relations) is central to application architecture with MongoDB, so I will discuss
 it separately in the [next](#mongoose-models-and-relationships) section.
 
 ## Mongoose models and relationships
 
-The API/controller and Mongoose model examples are VERY rudimentary. There is only one Mongoose model (Project) with
-one field ('title'). I would like to add more models, and then show how you can handle relationships between the models
-in an non-relational database like MongoDB.
+The API/controller and Mongoose model examples are rudimentary, but explain the basics of 2 models (Users and Tasks)
+with an 1:N relation between them:
 
-For instance, if a Task belongs to one User (person), or conversely a User can have multiple Tasks, how do you model
-that?
+* a Task belongs to one User (person)
+* a User can have multiple Tasks
 
-* Do you store a list of ObjectIDs of the Tasks in the User document?
-* Or do you 'de-normalize' the data and store not only the Tasks' IDs but also the tasks' Descriptions in the User
-document?
+How can you model this in MongoDB?
+
+* You can store a list of ObjectIDs of the Tasks in the User document
+* Or you can 'de-normalize' the data and store not only the Tasks' IDs but also the tasks' Descriptions in the User
+document
 
 Both approaches have their pros and cons. The tradeoffs are:
 
@@ -243,9 +269,7 @@ Mongoose and GraphQL.
 * the final solution, and the one I prefer, is to shift this problem to Mongoose - since Mongoose is an "ORM" it
 already has facilities to model relationships and make MongoDB behave a bit more like a "relational database".
 
-So, to summarize all of this: I'm planning to add more 'realistic' Mongoose models (with relationships between them) to
-the starter, and to show how to use Mongoose facilities to manage the relationships. The Mongoose features which make
-this possible are the following:
+The Mongoose features which make this possible are the following:
 
 * [Query Population](http://mongoosejs.com/docs/populate.html) - this facility lets Mongoose do the "client side joins"
 for you
@@ -256,7 +280,7 @@ see the section 'Error Handling Middleware' on that page
 your controllers etcetera simple. We could use [this](https://github.com/getlackey/mongoose-ref-validator) Mongoose
 plugin to enforce 'referential integrity' (prevent deleting a document which still refers to other documents)
 
-Even when using these Mongoose facilities it might be a good idea to introduce a Services layer next to the Controllers
+Even when using these Mongoose facilities it may be a good idea to introduce a Services layer next to the Controllers
 layer (I've already created a 'services' directory but it is currently empty). This way we can keep the controllers
 simple, maybe it turns out that the 'controllers' are not needed anymore (it might be that we end up with only routing
 boilerplate) and we can get rid of them (replace them with a generic module).
